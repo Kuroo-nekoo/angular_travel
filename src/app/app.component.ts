@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
+import { RouterLink, RouterOutlet } from '@angular/router';
 
 @Component({
+  standalone: true,
   selector: 'app-root',
   template: `
     <a routerLink="/signin">SignIn</a>
@@ -8,6 +10,7 @@ import { Component } from '@angular/core';
     <router-outlet></router-outlet>
   `,
   styles: [],
+  imports: [RouterLink, RouterOutlet],
 })
 export class AppComponent {
   title = 'travel';
