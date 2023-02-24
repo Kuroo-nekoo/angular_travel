@@ -73,7 +73,12 @@ import { CommonModule } from '@angular/common';
         </div>
       </div>
 
-      <input type="submit" value="login" class="btn btn-primary w-full" />
+      <input
+        type="submit"
+        value="login"
+        class="btn btn-primary w-full"
+        [disabled]="signUpForm.invalid"
+      />
     </form>
   </div>`,
   styles: [],
@@ -81,11 +86,21 @@ import { CommonModule } from '@angular/common';
 export class SignUpComponent {
   signUpForm = this.fb.group(
     {
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
-      confirmPassword: ['', [Validators.required, Validators.minLength(6)]],
+      email: ['', { validators: [Validators.required, Validators.email] }],
+      password: [
+        '',
+        {
+          validators: [Validators.required, Validators.minLength(6)],
+        },
+      ],
+      confirmPassword: [
+        '',
+        { validators: [Validators.required, Validators.minLength(6)] },
+      ],
     },
-    { validators: passwordMatchValidator }
+    {
+      validators: passwordMatchValidator,
+    }
   );
 
   get email() {
@@ -102,12 +117,13 @@ export class SignUpComponent {
 
   constructor(private fb: FormBuilder, private supabase: SupabaseService) {}
 
-  onSubmit() {
+  async onSubmit() {
     const { email, password } = this.signUpForm.value;
     console.log(this.signUpForm);
 
     if (email && password) {
-      this.supabase.signUp({ email, password });
+      const credential = await this.supabase.signUp({ email, password });
+      console.log(credential);
     }
   }
 }

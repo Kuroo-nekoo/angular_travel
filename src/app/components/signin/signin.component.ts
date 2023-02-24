@@ -46,7 +46,7 @@ import { Router } from '@angular/router';
         type="submit"
         value="login"
         class="btn btn-primary"
-        [disabled]="!signInForm.valid"
+        [disabled]="signInForm.invalid"
       />
     </form>
   </div>`,
